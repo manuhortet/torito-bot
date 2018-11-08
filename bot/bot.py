@@ -10,7 +10,7 @@ from telegram.ext import (CommandHandler, ConversationHandler, Filters,
 
 token = "694638932:AAE6vOQ1_Wuo2dM5X0hGSaBiPqwm3V6KfSE"
 
-logging.basicConfig(filename='bot/logs/actions.log', level=logging.INFO,
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 bot = telegram.Bot(token=token)
