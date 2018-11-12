@@ -1,6 +1,11 @@
+import logging
 import os
+import sys
 
 import bot.memify as memify
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 TORITO, TORERO = range(2)
 
@@ -30,13 +35,13 @@ def torero(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text=text[0], torero_text=text[1], output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
-    logging.info("New meme. Text:", text[0], "-", text[1],
-                 "Action by: ", update.effective_user.first_name)
+    logging.info("New meme - TEXT: \"{}\", \"{}\" - ACTION BY: @{}"
+                 .format(text[0], text[1], update.effective_user.username))
 
     return -1
 
 
 def cancel(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Canceled!")
-    logging.info("Canceled meme. Action by: ", update.effective_user.first_name)
+    logging.info("Canceled meme - ACTION BY: @{}".format(update.effective_user.username))
     return -1
