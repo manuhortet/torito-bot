@@ -10,6 +10,7 @@ text = []
 
 
 def new(bot, update):
+    global text
     text = []
     bot.sendMessage(chat_id=update.message.chat_id, text="(Cancel the process at any point using /cancel)\n\nText for the bull:")
     return TORITO
@@ -29,10 +30,13 @@ def torero(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text=text[0], torero_text=text[1], output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
+    logging.info("New meme. Text:", text[0], "-", text[1],
+                 "Action by: ", update.effective_user.first_name)
 
     return -1
 
 
 def cancel(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Canceled!")
+    logging.info("Canceled meme. Action by: ", update.effective_user.first_name)
     return -1

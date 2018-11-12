@@ -10,7 +10,9 @@ from telegram.ext import (CommandHandler, ConversationHandler, Filters,
 
 token = "694638932:AAE6vOQ1_Wuo2dM5X0hGSaBiPqwm3V6KfSE"
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(filename='bot/logs/actions.log', level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 bot = telegram.Bot(token=token)
 
 
@@ -19,7 +21,7 @@ def start(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text="este bot", torero_text="tus memes de mierda", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
-
+    logging.info("Bot started. Action by: ", update.effective_user.first_name)
     if update.effective_user.first_name == "Dani":
             bot.sendMessage(chat_id=update.message.chat_id, text="Your credentials coincide! I have a secret message for you:\n\nManu loves you <3")
 
@@ -29,6 +31,8 @@ def unknown(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text="Telegram bots API", torero_text="manuhortet", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
+    logging.info("Unkown message received. Message:", update.message.text,
+                 "Action by: ", update.effective_user.first_name)
 
 
 def main():
