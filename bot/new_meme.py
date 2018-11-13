@@ -30,18 +30,22 @@ def torito(bot, update):
 def torero(bot, update):
     text.append(update.message.text)
 
-    # memify
     path = os.path.dirname(os.path.abspath(__file__))
     output = path + "/torito.gif"
     memify.memify_torito(torito_text=text[0], torero_text=text[1], output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
-    logging.info("New meme - TEXT: \"{}\", \"{}\" - ACTION BY: @{}"
-                 .format(text[0], text[1], update.effective_user.username))
 
+    logging.info("New meme - TEXT: \"{}\", \"{}\" - ACTION BY: @{} ({})"
+                 .format(text[0], text[1],
+                         update.effective_user.username,
+                         update.effective_user.full_name))
     return -1
 
 
 def cancel(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Canceled!")
-    logging.info("Canceled meme - ACTION BY: @{}".format(update.effective_user.username))
+
+    logging.info("Canceled meme - ACTION BY: @{}"
+                 .format(update.effective_user.username,
+                         update.effective_user.full_name))
     return -1

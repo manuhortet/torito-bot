@@ -22,9 +22,15 @@ def start(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text="este bot", torero_text="tus memes de mierda", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
-    logging.info('Bot started - ACTION BY: @{}'.format(update.effective_user.username))
+
+    logging.info('Bot started - ACTION BY: @{} ({})'
+                 .format(update.effective_user.username,
+                         update.effective_user.full_name))
+
     if update.effective_user.first_name == "Dani":
-            bot.sendMessage(chat_id=update.message.chat_id, text="Your credentials coincide! I have a secret message for you:\n\nManu loves you <3")
+            bot.sendMessage(chat_id=update.message.chat_id, \
+                            text="Your credentials coincide! I have a secret message for you: \
+                            \n\nManu loves you <3")
 
 
 def unknown(bot, update):
@@ -32,8 +38,11 @@ def unknown(bot, update):
     output = path + "/torito.gif"
     memify.memify_torito(torito_text="Telegram bots API", torero_text="manuhortet", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
-    logging.info("Unkown message received - TEXT: \"{}\" - ACTION BY: @{}"
-                 .format(update.message.text, update.effective_user.username))
+
+    logging.info("Unkown message received - TEXT: \"{}\" - ACTION BY: @{} ({})"
+                 .format(update.message.text,
+                         update.effective_user.username,
+                         update.effective_user.full_name))
 
 
 def main():
