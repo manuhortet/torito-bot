@@ -1,17 +1,16 @@
 import logging
 import os
-import sys
 
 import bot.memify as memify
 import telegram
-from bot.credentials import credentials
+from bot.credentials import token
 from bot.new_meme import TORERO, TORITO, cancel, new, torero, torito
 from telegram.ext import (CommandHandler, ConversationHandler, Filters,
                           MessageHandler, Updater)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-bot = telegram.Bot(token=credentials)
+bot = telegram.Bot(token=token)
 
 
 def start(bot, update):
@@ -30,8 +29,12 @@ def unknown(bot, update):
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
 
 
+def help(bot, update):
+    bot.sendMessage(chat_id=update.message.chat_id, text="")
+
+
 def main():
-    updater = Updater(token=credentials)
+    updater = Updater(token=token)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('start', start))
