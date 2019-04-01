@@ -4,49 +4,34 @@ import sys
 
 import bot.memify as memify
 import telegram
-from bot.credentials import token
+from bot.credentials import credentials
 from bot.new_meme import TORERO, TORITO, cancel, new, torero, torito
 from telegram.ext import (CommandHandler, ConversationHandler, Filters,
                           MessageHandler, Updater)
 
-token = "694638932:AAE6vOQ1_Wuo2dM5X0hGSaBiPqwm3V6KfSE"
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-logging.basicConfig(stream=sys.stdout, level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
-bot = telegram.Bot(token=token)
+bot = telegram.Bot(token=credentials)
 
 
 def start(bot, update):
-    path = os.path.dirname(os.path.abspath(__file__))
-    output = path + "/torito.gif"
-    memify.memify_torito(torito_text="este bot", torero_text="tus memes de mierda", output=output)
+    output = os.path.dirname(os.path.abspath(__file__)) + "/torito.gif"
+
+    memify.memify_torito(torito_text="this bot", torero_text="your shitty memes", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
 
-    logging.info('Bot started - ACTION BY: @{} ({})'
-                 .format(update.effective_user.username,
-                         update.effective_user.full_name))
-
-    if update.effective_user.first_name == "Dani":
-            bot.sendMessage(chat_id=update.message.chat_id, \
-                            text="Your credentials coincide! I have a secret message for you: \
-                            \n\nManu loves you <3")
+    logging.info('Bot running for: @{} ({})'.format(update.effective_user.username, update.effective_user.full_name))
 
 
 def unknown(bot, update):
-    path = os.path.dirname(os.path.abspath(__file__))
-    output = path + "/torito.gif"
+    output = os.path.dirname(os.path.abspath(__file__)) + "/torito.gif"
+
     memify.memify_torito(torito_text="Telegram bots API", torero_text="manuhortet", output=output)
     bot.sendDocument(chat_id=update.message.chat_id, document=open(output, 'rb'))
 
-    logging.info("Unkown message received - TEXT: \"{}\" - ACTION BY: @{} ({})"
-                 .format(update.message.text,
-                         update.effective_user.username,
-                         update.effective_user.full_name))
-
 
 def main():
-    updater = Updater(token=token)
+    updater = Updater(token=credentials)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('start', start))
